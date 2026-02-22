@@ -9,19 +9,27 @@ window.addEventListener("load", () => {
     let timer = null;
     const intervalTime = 300;
 
-    startButton.addEventListener('click', () => {
-        // 画像認識機能を有効化
-        const arSystem = sceneEl.systems['mindar-image-system'];
-        arSystem.unpause(); // paused状態から復帰
+    // --- 【重要】起動直後に一旦ポーズをかける ---
+    sceneEl.addEventListener("arReady", () => {
+        // カメラは動いているが認識処理（スキャン）だけを止める
+        sceneEl.systems['mindar-image-system'].pause(true); 
+    });
 
-        // 音声ロック解除
+    startButton.addEventListener('click', () => {
+        // スキャン（認識）を再開
+        sceneEl.systems['mindar-image-system'].unpause();
+
+        // 音声のブラウザロック解除
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         });
 
-        // 案内画面を非表示
+        // 案内画面を消す
         startScreen.style.display = 'none';
+        
+        // レイアウト崩れ防止のリサイズ発火
+        window.dispatchEvent(new Event('resize'));
     });
 
     const startShow = () => {
@@ -33,7 +41,7 @@ window.addEventListener("load", () => {
             }, intervalTime);
         }
         audio.currentTime = 0;
-        audio.play().catch(e => console.log(e));
+        audio.play().catch(e => console.log("Audio play error:", e));
     };
 
     const stopShow = () => {
