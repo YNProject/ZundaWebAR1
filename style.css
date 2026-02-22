@@ -5,7 +5,17 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: transparent; /* 背景を透明にしてカメラを見せる */
+}
+
+/* A-Frameのビデオとキャンバスを強制的に背面に固定 */
+video, .a-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: -1 !important; /* 他のどの要素よりも後ろへ */
 }
 
 /* UIをカメラの前面に固定するためのコンテナ */
@@ -15,8 +25,8 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 9999; /* A-Frameより確実に前に出す */
-    pointer-events: none; /* 下の要素を触れるようにする（ただしstart-screen内は有効化する） */
+    z-index: 100; /* カメラより前に出す */
+    pointer-events: none; 
 }
 
 /* 初期画面の設定 */
@@ -26,8 +36,9 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.75);
-    pointer-events: auto; /* ボタンをクリック可能にする */
+    /* 完全に真っ白にせず、少し透かして「カメラが動いてる感」を出す */
+    background-color: rgba(255, 255, 255, 0.6); 
+    pointer-events: auto;
 }
 
 .info-box {
@@ -36,56 +47,30 @@ html, body {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    width: 85%;
-    max-width: 320px;
-}
-
-#start-screen p {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 0 20px 0;
-    font-family: sans-serif;
-}
-
-#guide-img {
-    width: 180px;
-    height: auto;
-    border: 3px solid #58ad21;
-    border-radius: 12px;
-    margin-bottom: 25px;
+    width: 80%;
+    max-width: 300px;
 }
 
 #start-button {
     width: 100%;
     padding: 16px 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #fff;
     background-color: #58ad21;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 4px 0 #3d7a17;
 }
 
-#start-button:active {
-    box-shadow: none;
-    transform: translateY(2px);
-}
-
-/* スキャンラインの制御 */
+/* マーカー認識中のみスキャンUIを表示 */
 .mindar-ui-scanning {
-    display: none !important;
-}
-
-body.ar-active .mindar-ui-scanning {
-    display: flex !important;
+    z-index: 50 !important; /* カメラより前、初期画面より後ろ */
 }
 
 body.target-found .mindar-ui-scanning {
     display: none !important;
 }
 
-/* A-Frameが勝手に出すボタンを隠す */
+/* 余計なボタンを消去 */
 .a-enter-vr, .a-enter-ar { display: none !important; }
