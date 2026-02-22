@@ -9,26 +9,23 @@ body {
     height: 100% !important;
 }
 
-.a-enter-vr,
-.a-enter-ar {
+/* VR/ARボタンを徹底的に消去 */
+.a-enter-vr, .a-enter-ar {
     display: none !important;
 }
 
+/* ★Mind-ARの標準スキャンUIの制御 */
 /* 最初は非表示 */
 .mindar-ui-scanning {
     display: none !important;
 }
 
-/* ボタン押下後に表示（認識中） */
+/* ボタン押下後（ar-activeクラス付与時）のみ、ライブラリの自動表示を許可する */
 body.ar-active .mindar-ui-scanning {
     display: flex !important;
 }
 
-/* 【追加】ずんだもんが表示されている間は強制的に隠す */
-body.scanning-hidden .mindar-ui-scanning {
-    display: none !important;
-}
-
+/* 初期画面のスタイル */
 #start-screen {
     position: fixed;
     top: 0;
@@ -49,12 +46,11 @@ body.scanning-hidden .mindar-ui-scanning {
     text-align: center;
     width: 80%;
     max-width: 320px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 #start-screen p {
     font-size: 18px;
-    margin: 0 0 20px 0;
+    margin-bottom: 20px;
     font-weight: bold;
     color: #333;
     font-family: sans-serif;

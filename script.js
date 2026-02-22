@@ -9,33 +9,36 @@ window.addEventListener("load", () => {
     let currentIndex = 0;
     let timer = null;
     const intervalTime = 300; 
-    let isArEnabled = false;
 
+    // 起動時：カメラ映像は出すが、画像認識だけを一時停止
     sceneEl.addEventListener("arReady", () => {
         sceneEl.systems['mindar-image-system'].pause(true); 
     });
 
+    // 「開始なのだ！」ボタン
     startButton.addEventListener('click', () => {
-        isArEnabled = true;
+        // 1. 画像認識システムを再開（これで標準スキャンUIが動き出す）
         sceneEl.systems['mindar-image-system'].unpause();
+
+        // 2. CSSで隠していた標準UIを表示可能にする
         document.body.classList.add('ar-active');
 
+        // 3. 音声のブラウザロック解除
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
-        }).catch(e => console.log(e));
+        }).catch(e => console.log("Audio Init Error:", e));
 
+        // 4. 案内画面を消す
         startScreen.style.display = 'none';
+        
+        // レイアウト崩れ防止
         window.dispatchEvent(new Event('resize'));
     });
 
+    // スキャン成功時の処理
     const startShow = () => {
-        if (!isArEnabled) return;
-
-        // 【修正】スキャンUI要素を直接探して非表示にする
-        const scanUI = document.querySelector('.mindar-ui-scanning');
-        if (scanUI) scanUI.style.display = 'none';
-
+        // アニメーション開始
         if (!timer) {
             timer = setInterval(() => {
                 frames.forEach(f => f.setAttribute('visible', false));
@@ -44,15 +47,13 @@ window.addEventListener("load", () => {
             }, intervalTime);
         }
         
+        // 音声再生
         audio.currentTime = 0;
         audio.play().catch(e => console.error("Audio Play Error:", e));
     };
 
+    // スキャン中断時の処理
     const stopShow = () => {
-        // 【修正】見失ったらスキャンUIを再び表示する
-        const scanUI = document.querySelector('.mindar-ui-scanning');
-        if (scanUI) scanUI.style.display = 'flex';
-
         if (timer) {
             clearInterval(timer);
             timer = null;
@@ -62,6 +63,7 @@ window.addEventListener("load", () => {
         audio.currentTime = 0;
     };
 
+    // Mind-ARのイベントをリッスン
     targetEl.addEventListener("targetFound", startShow);
     targetEl.addEventListener("targetLost", stopShow);
 });
