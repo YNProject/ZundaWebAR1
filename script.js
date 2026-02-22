@@ -10,22 +10,18 @@ window.addEventListener("load", () => {
     const intervalTime = 300;
 
     startButton.addEventListener('click', () => {
-        // ARシステムの開始
+        // 画像認識機能を有効化
         const arSystem = sceneEl.systems['mindar-image-system'];
-        arSystem.start(); 
+        arSystem.unpause(); // paused状態から復帰
 
-        // 音声のアンロック
+        // 音声ロック解除
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         });
 
+        // 案内画面を非表示
         startScreen.style.display = 'none';
-
-        // 真っ白対策：少し遅れてリサイズイベントを発火させ、カメラ描画を強制する
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-        }, 500);
     });
 
     const startShow = () => {
