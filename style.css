@@ -1,17 +1,75 @@
-/* VRボタン消去 */
-.a-enter-vr, .a-enter-ar { display: none !important; }
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #000;
+}
 
-/* 最初はスキャンUIを隠す */
-.mindar-ui-scanning {
+/* A-Frameのキャンバス設定 */
+.a-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1; /* カメラを一番後ろに */
+}
+
+/* VR/ARボタン消去 */
+.a-enter-vr, .a-enter-ar {
     display: none !important;
 }
 
-/* ボタン押下後のみ表示 */
+/* --- スキャンUIの制御 --- */
+.mindar-ui-scanning {
+    display: none !important; /* 最初は隠す */
+    z-index: 500;
+}
+
+/* ボタン押下後に表示を許可 */
 body.ar-active .mindar-ui-scanning {
     display: flex !important;
 }
 
-/* ターゲット発見時に強制的に消すためのクラス */
+/* 認識成功時は最優先で消す */
 body.target-found .mindar-ui-scanning {
     display: none !important;
+}
+
+/* --- 初期画面（最前面） --- */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明でカメラを見せる */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* 全ての要素より前に出す */
+}
+
+.info-box {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    width: 80%;
+    max-width: 320px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+#start-button {
+    padding: 15px 0;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #58ad21;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#guide-img {
+    width: 150px;
+    border: 2px solid #58ad21;
+    margin-bottom: 20px;
 }

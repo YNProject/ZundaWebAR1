@@ -10,6 +10,14 @@
 </head>
 <body>
 
+    <div id="start-screen">
+        <div class="info-box">
+            <p>この画像をスキャンしよう！</p>
+            <img src="img/SCkinako2.png" id="guide-img">
+            <button id="start-button">スキャン開始なのだ！</button>
+        </div>
+    </div>
+
     <a-scene 
         id="ar-scene"
         mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: true; uiScanning: yes;" 
@@ -45,14 +53,6 @@
             <a-image class="zunda-frame" src="#z8" position="0 0 0" height="1.2" width="1" visible="false"></a-image>
         </a-entity>
     </a-scene>
-
-    <div id="start-screen">
-        <div class="info-box">
-            <p>この画像をスキャンしよう！</p>
-            <img src="img/SCkinako2.png" id="guide-img">
-            <button id="start-button">スキャン開始なのだ！</button>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>

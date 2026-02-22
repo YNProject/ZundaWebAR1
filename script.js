@@ -10,32 +10,29 @@ window.addEventListener("load", () => {
     let timer = null;
     const intervalTime = 300; 
 
-    // 起動時：認識のみ停止
+    // 1. 起動時に認識のみ停止
     sceneEl.addEventListener("arReady", () => {
         sceneEl.systems['mindar-image-system'].pause(true); 
     });
 
+    // 2. ボタン押下：スキャン開始
     startButton.addEventListener('click', () => {
-        sceneEl.systems['mindar-image-system'].unpause();
-        document.body.classList.add('ar-active');
+        document.body.classList.add('ar-active'); // CSSでスキャンUIを許可
+        sceneEl.systems['mindar-image-system'].unpause(); // 認識再開
         
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         }).catch(e => console.log(e));
 
-        startScreen.style.display = 'none';
+        startScreen.style.display = 'none'; // 初期画面を消す
         window.dispatchEvent(new Event('resize'));
     });
 
-    // スキャン成功時
-    const startShow = () => {
-        // ★【決定打】標準のスキャンUIを強制的に非表示にする
-        document.body.classList.add('target-found');
-        const standardUI = document.querySelector('.mindar-ui-scanning');
-        if (standardUI) standardUI.style.display = 'none';
-
-        // アニメーション
+    // 3. ターゲット発見
+    targetEl.addEventListener("targetFound", () => {
+        document.body.classList.add('target-found'); // ラインを強制消去
+        
         if (!timer) {
             timer = setInterval(() => {
                 frames.forEach(f => f.setAttribute('visible', false));
@@ -44,24 +41,18 @@ window.addEventListener("load", () => {
             }, intervalTime);
         }
         audio.currentTime = 0;
-        audio.play().catch(e => console.error(e));
-    };
+        audio.play();
+    });
 
-    // スキャン中断時
-    const stopShow = () => {
-        // ★【決定打】スキャンUIを復活させる
-        document.body.classList.remove('target-found');
-        const standardUI = document.querySelector('.mindar-ui-scanning');
-        if (standardUI) standardUI.style.display = 'flex';
-
+    // 4. ターゲット紛失
+    targetEl.addEventListener("targetLost", () => {
+        document.body.classList.remove('target-found'); // ラインを復活
+        
         if (timer) {
             clearInterval(timer);
             timer = null;
         }
         frames.forEach(f => f.setAttribute('visible', false));
         audio.pause();
-    };
-
-    targetEl.addEventListener("targetFound", startShow);
-    targetEl.addEventListener("targetLost", stopShow);
+    });
 });
