@@ -5,17 +5,19 @@ window.addEventListener("load", () => {
     const startButton = document.querySelector('#start-button');
     const targetEl = document.querySelector('#zunda-target');
     
-    // アニメーション用のタイマー変数（状態を維持）
     let timer = null;
     const intervalTime = 300; 
 
-    // ★今回の修正点：起動時は何もしない（autoStart: false と連動）
+    // ★追加：カメラ（AR）の準備ができたら、認識機能だけを一時停止（pause）させる
+    sceneEl.addEventListener("arReady", () => {
+        // pause(true) にすることで、カメラ映像は出たままで画像認識だけが止まります
+        sceneEl.systems['mindar-image-system'].pause(true); 
+    });
 
     // ボタン押下時の処理
     startButton.addEventListener('click', () => {
-        // ★今回の修正点：ここをクリックした時だけシステムを開始する
-        const arSystem = sceneEl.systems['mindar-image-system'];
-        arSystem.start(); 
+        // ★修正：一時停止していた認識機能を「再開」させる
+        sceneEl.systems['mindar-image-system'].unpause();
 
         document.body.classList.add('ar-active');
         
@@ -31,18 +33,13 @@ window.addEventListener("load", () => {
         }, 100);
     });
 
-    // ターゲット発見（以前「表示されない」問題を解決した時のロジックそのまま）
+    // --- targetFound 以降のロジックは一切変更なし ---
     targetEl.addEventListener("targetFound", () => {
         document.body.classList.add('target-found');
-        
-        // フレームはその都度最新の状態で取得
         const frames = document.querySelectorAll('.zunda-frame');
         let currentIndex = 0;
-
         if (timer) clearInterval(timer);
-        
         timer = setInterval(() => {
-            // A-Frameの visible 属性を 'true'/'false' で確実に切り替える
             for (let i = 0; i < frames.length; i++) {
                 if (i === currentIndex) {
                     frames[i].setAttribute('visible', 'true');
@@ -52,25 +49,20 @@ window.addEventListener("load", () => {
             }
             currentIndex = (currentIndex + 1) % frames.length;
         }, intervalTime);
-
         if (audio) {
             audio.currentTime = 0;
             audio.play().catch(e => console.log(e));
         }
     });
 
-    // ターゲット紛失（以前の状態を維持）
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
-        
         if (timer) {
             clearInterval(timer);
             timer = null;
         }
-        
         const frames = document.querySelectorAll('.zunda-frame');
         frames.forEach(f => f.setAttribute('visible', 'false'));
-        
         if (audio) audio.pause();
     });
 });
