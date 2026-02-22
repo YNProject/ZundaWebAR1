@@ -11,7 +11,8 @@
 <body>
 
     <a-scene 
-        mindar-image="imageTargetSrc: ./img/targets.mind; uiScanning: yes;" 
+        id="ar-scene"
+        mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: false; uiScanning: yes;" 
         color-space="sRGB" 
         renderer="colorManagement: true, physicallyCorrectLights" 
         vr-mode-ui="enabled: false" 
@@ -27,7 +28,6 @@
             <img id="z6" src="img/ずんだもん立ち絵素材2_0006.png">
             <img id="z7" src="img/ずんだもん立ち絵素材2_0007.png">
             <img id="z8" src="img/ずんだもん立ち絵素材2_0008.png">
-
             <audio id="zunda-audio" src="img/SCKinakoZun.wav" preload="auto"></audio>
         </a-assets>
 
@@ -44,11 +44,14 @@
             <a-image class="zunda-frame" src="#z7" position="0 0 0" height="1.2" width="1" visible="false"></a-image>
             <a-image class="zunda-frame" src="#z8" position="0 0 0" height="1.2" width="1" visible="false"></a-image>
         </a-entity>
-
     </a-scene>
 
     <div id="start-screen">
-        <button id="start-button">開始するのだ！</button>
+        <div class="modal-content">
+            <p>この画像をスキャンしよう！</p>
+            <img src="img/SCkinako2.png" alt="Marker" class="marker-preview">
+            <button id="start-button">ARを開始するのだ！</button>
+        </div>
     </div>
 
     <script src="script.js"></script>

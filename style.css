@@ -8,31 +8,63 @@ body {
     height: 100% !important;
 }
 
-/* VRボタンを物理的に消去 */
 .a-enter-vr, .a-enter-ar {
     display: none !important;
 }
 
-/* 開始画面のスタイル */
+/* 開始画面 */
 #start-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.9);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
 }
 
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 80%;
+}
+
+.modal-content p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    font-family: sans-serif;
+}
+
+.marker-preview {
+    width: 150px;
+    height: auto;
+    border: 2px solid #58ad21;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
 #start-button {
-    padding: 20px 40px;
-    font-size: 20px;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: bold;
     background-color: #58ad21;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    box-shadow: 0 4px #3e7a17;
+}
+
+#start-button:active {
+    box-shadow: none;
+    transform: translateY(4px);
 }
