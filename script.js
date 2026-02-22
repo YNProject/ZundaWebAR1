@@ -9,20 +9,23 @@ window.addEventListener("load", () => {
     let timer = null;
     const intervalTime = 300;
 
-    // ボタンをクリックした時の処理
     startButton.addEventListener('click', () => {
-        // 1. ARシステムを起動
+        // ARシステムの開始
         const arSystem = sceneEl.systems['mindar-image-system'];
         arSystem.start(); 
 
-        // 2. 音声ロック解除（空再生）
+        // 音声のアンロック
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         });
 
-        // 3. 案内画面を消す
         startScreen.style.display = 'none';
+
+        // 真っ白対策：少し遅れてリサイズイベントを発火させ、カメラ描画を強制する
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 500);
     });
 
     const startShow = () => {
@@ -34,7 +37,7 @@ window.addEventListener("load", () => {
             }, intervalTime);
         }
         audio.currentTime = 0;
-        audio.play().catch(e => console.log("Audio Error:", e));
+        audio.play().catch(e => console.log(e));
     };
 
     const stopShow = () => {
