@@ -3,13 +3,8 @@ body {
     overflow: hidden;
 }
 
-/* AR表示エリアを全画面に */
+/* AR表示用キャンバスの設定 */
 .a-canvas {
     width: 100% !important;
     height: 100% !important;
-}
-
-/* スキャン待ちのUIなどを中央に */
-.mindar-ui-overlay {
-    z-index: 100;
 }
