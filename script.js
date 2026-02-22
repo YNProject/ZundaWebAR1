@@ -8,24 +8,18 @@ window.addEventListener("load", () => {
     
     let currentIndex = 0;
     let timer = null;
-    const intervalTime = 300; // 1000から300に変更（パラパラ漫画感を出すため）
+    const intervalTime = 300; 
     let isArEnabled = false;
 
-    // 起動時に認識のみ停止
     sceneEl.addEventListener("arReady", () => {
         sceneEl.systems['mindar-image-system'].pause(true); 
     });
 
     startButton.addEventListener('click', () => {
         isArEnabled = true;
-        
-        // システム再開
         sceneEl.systems['mindar-image-system'].unpause();
-
-        // CSSでスキャンラインを表示させる準備
         document.body.classList.add('ar-active');
 
-        // 音声ロック解除
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
@@ -38,8 +32,9 @@ window.addEventListener("load", () => {
     const startShow = () => {
         if (!isArEnabled) return;
 
-        // 【追加】認識されたらスキャンUIを隠すクラスを付与
-        document.body.classList.add('scanning-hidden');
+        // 【修正】スキャンUI要素を直接探して非表示にする
+        const scanUI = document.querySelector('.mindar-ui-scanning');
+        if (scanUI) scanUI.style.display = 'none';
 
         if (!timer) {
             timer = setInterval(() => {
@@ -54,8 +49,9 @@ window.addEventListener("load", () => {
     };
 
     const stopShow = () => {
-        // 【追加】認識が外れたらスキャンUIを隠すクラスを除去（再び表示される）
-        document.body.classList.remove('scanning-hidden');
+        // 【修正】見失ったらスキャンUIを再び表示する
+        const scanUI = document.querySelector('.mindar-ui-scanning');
+        if (scanUI) scanUI.style.display = 'flex';
 
         if (timer) {
             clearInterval(timer);
