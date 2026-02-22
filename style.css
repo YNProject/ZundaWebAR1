@@ -1,76 +1,91 @@
-/* 基本設定 */
+/* 基本設定：余計な余白をゼロに */
 html, body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-    background-color: transparent; /* 背景を透明にしてカメラを見せる */
+    background-color: #000;
 }
 
-/* A-Frameのビデオとキャンバスを強制的に背面に固定 */
+/* カメラ映像を背面に固定 */
 video, .a-canvas {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: -1 !important; /* 他のどの要素よりも後ろへ */
+    z-index: 1 !important;
 }
 
-/* UIをカメラの前面に固定するためのコンテナ */
+/* UIレイヤー：カメラの上に重ねる */
 #ui-layer {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 100; /* カメラより前に出す */
-    pointer-events: none; 
+    z-index: 100;
+    pointer-events: none; /* 下のカメラ操作を邪魔しない */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* 初期画面の設定 */
+/* 初期画面：中央に配置 */
 #start-screen {
+    pointer-events: auto;
+    background-color: rgba(255, 255, 255, 0.85); /* 少し透明度を下げて見やすく */
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* 完全に真っ白にせず、少し透かして「カメラが動いてる感」を出す */
-    background-color: rgba(255, 255, 255, 0.6); 
-    pointer-events: auto;
 }
 
 .info-box {
-    background: #fff;
-    padding: 30px;
+    background: white;
+    padding: 20px;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    width: 80%;
-    max-width: 300px;
+    width: 280px; /* 幅を固定して突き抜けを防止 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#start-screen p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* 1枚目の巨大化を防ぐ設定 */
+#guide-img {
+    width: 140px; /* 適正なサイズに固定 */
+    height: auto;
+    border: 3px solid #58ad21;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 #start-button {
     width: 100%;
-    padding: 16px 0;
+    padding: 15px 0;
     font-size: 18px;
     font-weight: bold;
-    color: #fff;
+    color: white;
     background-color: #58ad21;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
-/* マーカー認識中のみスキャンUIを表示 */
+/* スキャンラインを中央に */
 .mindar-ui-scanning {
-    z-index: 50 !important; /* カメラより前、初期画面より後ろ */
+    z-index: 50 !important;
 }
 
+/* 認識中のみ消す設定 */
 body.target-found .mindar-ui-scanning {
     display: none !important;
 }
 
-/* 余計なボタンを消去 */
 .a-enter-vr, .a-enter-ar { display: none !important; }

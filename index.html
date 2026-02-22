@@ -1,61 +1,36 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ずんだもん WebAR</title>
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <div id="ui-layer">
-        <div id="start-screen">
-            <div class="info-box">
-                <p>この画像をスキャンしよう！</p>
-                <img src="img/SCkinako2.png" id="guide-img">
-                <button id="start-button">スキャン開始なのだ！</button>
-            </div>
+<div id="ui-layer">
+    <div id="start-screen">
+        <div class="info-box">
+            <p>この画像をスキャンしよう！</p>
+            <img src="img/SCkinako2.png" id="guide-img">
+            <button id="start-button">スキャン開始なのだ！</button>
         </div>
     </div>
+</div>
 
-    <a-scene 
-        id="ar-scene"
-        mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: true; uiScanning: yes;" 
-        color-space="sRGB" 
-        renderer="colorManagement: true, physicallyCorrectLights" 
-        vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false">
-        
-        <a-assets>
-            <img id="z0" src="img/ずんだもん立ち絵素材2_0000.png">
-            <img id="z1" src="img/ずんだもん立ち絵素材2_0001.png">
-            <img id="z2" src="img/ずんだもん立ち絵素材2_0002.png">
-            <img id="z3" src="img/ずんだもん立ち絵素材2_0003.png">
-            <img id="z4" src="img/ずんだもん立ち絵素材2_0004.png">
-            <img id="z5" src="img/ずんだもん立ち絵素材2_0005.png">
-            <img id="z6" src="img/ずんだもん立ち絵素材2_0006.png">
-            <img id="z7" src="img/ずんだもん立ち絵素材2_0007.png">
-            <img id="z8" src="img/ずんだもん立ち絵素材2_0008.png">
-            <audio id="zunda-audio" src="img/SCKinakoZun.wav" preload="auto"></audio>
+<a-scene 
+    mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: true; uiScanning: yes;" 
+    embedded
+    color-space="sRGB" 
+    renderer="colorManagement: true, physicallyCorrectLights" 
+    vr-mode-ui="enabled: false" 
+    device-orientation-permission-ui="enabled: false">
+    
+    <a-assets>
+        <img id="z0" src="img/ずんだもん立ち絵素材2_0000.png">
         </a-assets>
 
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <a-entity id="zunda-target" mindar-image-target="targetIndex: 0">
-            <a-image class="zunda-frame" src="#z0" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z1" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z2" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z3" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z4" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z5" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z6" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z7" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-            <a-image class="zunda-frame" src="#z8" position="0 0 0" height="1.5" width="1.2" visible="false"></a-image>
-        </a-entity>
-    </a-scene>
-
-    <script src="script.js"></script>
-</body>
-</html>
+    <a-entity id="zunda-target" mindar-image-target="targetIndex: 0">
+        <a-image class="zunda-frame" src="#z0" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z1" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z2" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z3" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z4" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z5" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z6" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z7" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+        <a-image class="zunda-frame" src="#z8" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
+    </a-entity>
+</a-scene>
