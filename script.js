@@ -6,72 +6,58 @@ window.addEventListener("load", () => {
     const targetEl = document.querySelector('#zunda-target');
     
     let timer = null;
+    let isReadyToScan = false; // スキャン許可フラグ
     const intervalTime = 300; 
 
     // ボタン押下時の処理
     startButton.addEventListener('click', () => {
-        // システムを明示的に開始
-        const arSystem = sceneEl.systems['mindar-image-system'];
-        if (arSystem) {
-            arSystem.start(); 
-        }
-
-        // CSSでの表示を切り替え
+        isReadyToScan = true; // ここでスキャンを許可
         document.body.classList.add('ar-active');
         
-        // 音声の初期化（ブラウザ制限解除）
+        // 音声制限解除
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
-        }).catch(e => console.log("Audio init failed:", e));
+        }).catch(e => console.log(e));
 
-        // 初期画面を消去
         startScreen.style.display = 'none';
-
-        // 描画領域を強制リサイズ
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-        }, 100);
+        
+        // レイアウト崩れ防止
+        window.dispatchEvent(new Event('resize'));
     });
 
     // ターゲット発見
     targetEl.addEventListener("targetFound", () => {
+        // フラグが立っていない（ボタンを押してない）なら何もしない
+        if (!isReadyToScan) return;
+
         document.body.classList.add('target-found');
-        
         const frames = document.querySelectorAll('.zunda-frame');
         let currentIndex = 0;
 
         if (timer) clearInterval(timer);
-        
         timer = setInterval(() => {
             for (let i = 0; i < frames.length; i++) {
-                if (i === currentIndex) {
-                    frames[i].setAttribute('visible', 'true');
-                } else {
-                    frames[i].setAttribute('visible', 'false');
-                }
+                frames[i].setAttribute('visible', i === currentIndex ? 'true' : 'false');
             }
             currentIndex = (currentIndex + 1) % frames.length;
         }, intervalTime);
 
         if (audio) {
             audio.currentTime = 0;
-            audio.play().catch(e => console.log("Play error:", e));
+            audio.play().catch(e => console.log(e));
         }
     });
 
     // ターゲット紛失
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
-        
         if (timer) {
             clearInterval(timer);
             timer = null;
         }
-        
         const frames = document.querySelectorAll('.zunda-frame');
         frames.forEach(f => f.setAttribute('visible', 'false'));
-        
         if (audio) audio.pause();
     });
 });

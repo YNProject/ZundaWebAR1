@@ -7,8 +7,11 @@ html, body {
     background-color: #000;
 }
 
-.a-canvas {
-    display: block !important;
+/* カメラ映像を強制的に全画面表示 */
+video, .a-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
 }
 
 #ui-layer {
@@ -17,7 +20,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 100;
+    z-index: 1000; /* A-Frameより手前に */
     pointer-events: none;
     display: flex;
     justify-content: center;
@@ -30,7 +33,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.4);
     pointer-events: auto;
 }
 
@@ -42,24 +45,6 @@ html, body {
     width: 80%;
     max-width: 280px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-#start-screen p {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 0 15px 0;
-    font-family: sans-serif;
-}
-
-#guide-img {
-    width: 100%;
-    max-width: 160px;
-    height: auto;
-    border: 3px solid #58ad21;
-    border-radius: 12px;
-    display: block;
-    margin: 0 auto 20px;
 }
 
 #start-button {
@@ -75,24 +60,10 @@ html, body {
     box-shadow: 0 4px 0 #3d7a17;
 }
 
-#start-button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #3d7a17;
-}
-
-/* スキャンUIの制御 */
-.mindar-ui-scanning, .mindar-ui-loading {
+/* スキャンUIを初期は隠す */
+.mindar-ui-scanning {
     display: none !important;
 }
-
-body.ar-active .mindar-ui-scanning {
+body.ar-active .mindar-ui-scanning:not(.target-found) {
     display: flex !important;
-}
-
-body.target-found .mindar-ui-scanning {
-    display: none !important;
-}
-
-.a-enter-vr, .a-enter-ar {
-    display: none !important;
 }
