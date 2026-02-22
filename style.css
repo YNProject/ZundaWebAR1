@@ -75,7 +75,7 @@ html, body {
     box-shadow: 0 2px 0 #3d7a17;
 }
 
-/* スキャンUIの制御 */
+/* スキャンUI制御 */
 .a-enter-vr, .a-enter-ar, .mindar-ui-loading {
     display: none !important;
 }
@@ -84,7 +84,6 @@ html, body {
     display: none !important;
 }
 
-/* ボタン押下後、かつターゲット未発見時のみスキャンライン表示 */
 body.ar-active:not(.target-found) .mindar-ui-scanning {
     display: flex !important;
 }

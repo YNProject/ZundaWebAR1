@@ -10,7 +10,6 @@ window.addEventListener("load", () => {
     let isScannerActive = false; 
     const intervalTime = 300; 
 
-    // パーティクル生成関数（放射状・ゆっくり）
     const createParticles = () => {
         particleContainer.innerHTML = ''; 
         const count = 15; 
@@ -21,42 +20,26 @@ window.addEventListener("load", () => {
             p.setAttribute('width', '0.12');
             p.setAttribute('height', '0.12');
             
-            // 角度の計算
+            // チラつき防止：奥行き判定をオフにする
+            p.setAttribute('material', 'transparent: true; alphaTest: 0.05; depthTest: false;');
+            
             const angle = (i / count) * Math.PI * 2;
-            const distance = 1.2; // 外側への広がりの幅
+            const distance = 0.8; 
             
-            // 【開始位置】ずんだもんの少し後ろ、かつ中心付近
-            const startZ = -0.2;
-            p.setAttribute('position', `0 0 ${startZ}`);
-            
-            // チラつき防止と透過設定
-            p.setAttribute('material', 'transparent: true; alphaTest: 0.05; depthWrite: false;');
+            p.setAttribute('position', '0 0 0');
 
-            // 【アニメーション】外側に広がりつつ、カメラ側（zを大きく）へ移動
-            // z: 1.0 にすることで自分の方へ飛んでくる感覚になります
             p.setAttribute('animation__move', {
                 property: 'position',
-                to: `${Math.cos(angle) * distance} ${Math.sin(angle) * distance} 1.0`,
-                dur: 4000, 
+                to: `${Math.cos(angle) * distance} ${Math.sin(angle) * distance} 0`,
+                dur: 4000,
                 easing: 'easeOutQuad',
                 loop: true
             });
 
-            // 消えていくアニメーション
             p.setAttribute('animation__fade', {
                 property: 'material.opacity',
                 from: 1,
                 to: 0,
-                dur: 4000,
-                easing: 'linear',
-                loop: true
-            });
-
-            // 飛んでくる間に少しだけ大きくすると迫力がでます
-            p.setAttribute('animation__scale', {
-                property: 'scale',
-                from: '1 1 1',
-                to: '1.5 1.5 1.5',
                 dur: 4000,
                 easing: 'linear',
                 loop: true
@@ -83,7 +66,7 @@ window.addEventListener("load", () => {
         if (!isScannerActive) return;
 
         document.body.classList.add('target-found');
-        createParticles(); // 放射状パーティクル開始
+        createParticles();
 
         const frames = document.querySelectorAll('.zunda-frame');
         let currentIndex = 0;
@@ -103,7 +86,7 @@ window.addEventListener("load", () => {
 
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
-        particleContainer.innerHTML = ''; // パーティクル消去
+        particleContainer.innerHTML = ''; 
 
         if (timer) {
             clearInterval(timer);
