@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+/* A-Frameのキャンバスサイズ調整 */
+.a-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
