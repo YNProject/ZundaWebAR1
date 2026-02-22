@@ -10,27 +10,36 @@
 </head>
 <body>
 
-    <a-assets>
-    <img id="zunda0" src="./img/ずんだもん立ち絵素材2_0000.png">
-    <img id="zunda1" src="./img/ずんだもん立ち絵素材2_0001.png">
-    <img id="zunda2" src="./img/ずんだもん立ち絵素材2_0002.png">
-    <img id="zunda3" src="./img/ずんだもん立ち絵素材2_0003.png">
-    <img id="zunda4" src="./img/ずんだもん立ち絵素材2_0004.png">
-    <img id="zunda5" src="./img/ずんだもん立ち絵素材2_0005.png">
-    <img id="zunda6" src="./img/ずんだもん立ち絵素材2_0006.png">
-    <img id="zunda7" src="./img/ずんだもん立ち絵素材2_0007.png">
-    <img id="zunda8" src="./img/ずんだもん立ち絵素材2_0008.png">
-</a-assets>
+    <a-scene 
+        mindar-image="imageTargetSrc: ./img/targets.mind;" 
+        color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights" 
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false">
+        
+        <a-assets>
+            <img id="zunda0" src="./img/ずんだもん立ち絵素材2_0000.png">
+            <img id="zunda1" src="./img/ずんだもん立ち絵素材2_0001.png">
+            <img id="zunda2" src="./img/ずんだもん立ち絵素材2_0002.png">
+            <img id="zunda3" src="./img/ずんだもん立ち絵素材2_0003.png">
+            <img id="zunda4" src="./img/ずんだもん立ち絵素材2_0004.png">
+            <img id="zunda5" src="./img/ずんだもん立ち絵素材2_0005.png">
+            <img id="zunda6" src="./img/ずんだもん立ち絵素材2_0006.png">
+            <img id="zunda7" src="./img/ずんだもん立ち絵素材2_0007.png">
+            <img id="zunda8" src="./img/ずんだもん立ち絵素材2_0008.png">
+        </a-assets>
 
-<a-entity mindar-image-target="targetIndex: 0">
-    <a-image 
-        id="target-img"
-        src="#zunda0" 
-        position="0 0 0" 
-        height="1.2" 
-        width="1">
-    </a-image>
-</a-entity>
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <a-entity id="zunda-target" mindar-image-target="targetIndex: 0">
+            <a-image 
+                id="zunda-display"
+                src="#zunda0" 
+                position="0 0 0" 
+                height="1.2" 
+                width="1">
+            </a-image>
+        </a-entity>
 
     </a-scene>
 

@@ -1,25 +1,26 @@
-window.onload = () => {
-    const targetImg = document.querySelector('#target-img');
+document.addEventListener("DOMContentLoaded", () => {
+    const targetImg = document.querySelector('#zunda-display');
     let currentIndex = 0;
-    const maxIndex = 8; // 0000〜0008 なので最大は8
-    const intervalTime = 1000; // 切り替え速度（ミリ秒）。1000 = 1秒
+    const maxIndex = 8;
+    const intervalTime = 1000; // 1秒ごとに切り替え
 
-    // スライドショーの関数
-    const startSlideshow = () => {
-        setInterval(() => {
-            currentIndex++;
-            if (currentIndex > maxIndex) {
-                currentIndex = 0; // 最後までいったら最初に戻る
-            }
-            // a-imageのsrc属性を更新（#zunda0, #zunda1...）
-            targetImg.setAttribute('src', `#zunda${currentIndex}`);
-        }, intervalTime);
-    };
+    // スライドショーの実行
+    setInterval(() => {
+        currentIndex++;
+        if (currentIndex > maxIndex) {
+            currentIndex = 0;
+        }
+        
+        // id="zunda0" などの ID を src にセット
+        const nextSrc = `#zunda${currentIndex}`;
+        targetImg.setAttribute('src', nextSrc);
+        
+        console.log("Current image:", nextSrc);
+    }, intervalTime);
 
-    // 実行
-    startSlideshow();
-
-    // デバッグ用ログ
-    const targetEl = document.querySelector('[mindar-image-target]');
-    targetEl.addEventListener("targetFound", () => console.log("出現なのだ！"));
-};
+    // ターゲット検知の確認ログ
+    const targetEl = document.querySelector('#zunda-target');
+    targetEl.addEventListener("targetFound", () => {
+        console.log("マーカーを検知したのだ！");
+    });
+});
