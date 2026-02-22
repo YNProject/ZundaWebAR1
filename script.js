@@ -12,8 +12,8 @@ window.addEventListener("load", () => {
 
     // パーティクル生成関数（放射状・ゆっくり）
     const createParticles = () => {
-        particleContainer.innerHTML = ''; // リセット
-        const count = 15; // パーティクルの数
+        particleContainer.innerHTML = ''; 
+        const count = 15; 
 
         for (let i = 0; i < count; i++) {
             const p = document.createElement('a-image');
@@ -21,28 +21,43 @@ window.addEventListener("load", () => {
             p.setAttribute('width', '0.12');
             p.setAttribute('height', '0.12');
             
-            // 角度を計算（360度を等分）
+            // 角度の計算
             const angle = (i / count) * Math.PI * 2;
-            const distance = 0.8; // 広がる距離
+            const distance = 1.2; // 外側への広がりの幅
             
-            // 中心位置
-            p.setAttribute('position', '0 0 0.1');
+            // 【開始位置】ずんだもんの少し後ろ、かつ中心付近
+            const startZ = -0.2;
+            p.setAttribute('position', `0 0 ${startZ}`);
+            
+            // チラつき防止と透過設定
+            p.setAttribute('material', 'transparent: true; alphaTest: 0.05; depthWrite: false;');
 
-            // 放射状にゆっくり広がるアニメーション
+            // 【アニメーション】外側に広がりつつ、カメラ側（zを大きく）へ移動
+            // z: 1.0 にすることで自分の方へ飛んでくる感覚になります
             p.setAttribute('animation__move', {
                 property: 'position',
-                to: `${Math.cos(angle) * distance} ${Math.sin(angle) * distance} 0.1`,
-                dur: 4000, // 4秒かけてゆっくり移動
+                to: `${Math.cos(angle) * distance} ${Math.sin(angle) * distance} 1.0`,
+                dur: 4000, 
                 easing: 'easeOutQuad',
                 loop: true
             });
 
-            // ゆっくり消えていくアニメーション
+            // 消えていくアニメーション
             p.setAttribute('animation__fade', {
                 property: 'material.opacity',
                 from: 1,
                 to: 0,
-                dur: 4000, // 移動と同じ時間で消える
+                dur: 4000,
+                easing: 'linear',
+                loop: true
+            });
+
+            // 飛んでくる間に少しだけ大きくすると迫力がでます
+            p.setAttribute('animation__scale', {
+                property: 'scale',
+                from: '1 1 1',
+                to: '1.5 1.5 1.5',
+                dur: 4000,
                 easing: 'linear',
                 loop: true
             });
