@@ -6,35 +6,31 @@ window.addEventListener("load", () => {
     const targetEl = document.querySelector('#zunda-target');
     
     let timer = null;
-    let isReadyToScan = false; // スキャン許可フラグ
+    let isScannerActive = false; // フラグで制御
     const intervalTime = 300; 
 
-    // ボタン押下時の処理
     startButton.addEventListener('click', () => {
-        isReadyToScan = true; // ここでスキャンを許可
+        isScannerActive = true; // ボタン押下でスキャン許可
         document.body.classList.add('ar-active');
         
-        // 音声制限解除
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         }).catch(e => console.log(e));
 
         startScreen.style.display = 'none';
-        
-        // レイアウト崩れ防止
-        window.dispatchEvent(new Event('resize'));
+
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 100);
     });
 
-    // ターゲット発見
     targetEl.addEventListener("targetFound", () => {
-        // フラグが立っていない（ボタンを押してない）なら何もしない
-        if (!isReadyToScan) return;
+        if (!isScannerActive) return; // ボタンを押す前なら無視
 
         document.body.classList.add('target-found');
         const frames = document.querySelectorAll('.zunda-frame');
         let currentIndex = 0;
-
         if (timer) clearInterval(timer);
         timer = setInterval(() => {
             for (let i = 0; i < frames.length; i++) {
@@ -42,14 +38,12 @@ window.addEventListener("load", () => {
             }
             currentIndex = (currentIndex + 1) % frames.length;
         }, intervalTime);
-
         if (audio) {
             audio.currentTime = 0;
             audio.play().catch(e => console.log(e));
         }
     });
 
-    // ターゲット紛失
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
         if (timer) {
