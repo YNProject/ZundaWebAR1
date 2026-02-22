@@ -75,21 +75,16 @@ html, body {
     box-shadow: 0 2px 0 #3d7a17;
 }
 
-/* --- スキャンラインの制御 --- */
-
-/* 不要なUI（VRボタン等）を隠す */
+/* スキャンUIの制御 */
 .a-enter-vr, .a-enter-ar, .mindar-ui-loading {
     display: none !important;
 }
 
-/* 初期状態はスキャンUIを隠す */
 .mindar-ui-scanning {
     display: none !important;
 }
 
-/* 修正ポイント：
-   ボタン押下後（ar-active）かつ、ターゲット未発見（:not(.target-found)）の時だけ表示 
-*/
+/* ボタン押下後、かつターゲット未発見時のみスキャンライン表示 */
 body.ar-active:not(.target-found) .mindar-ui-scanning {
     display: flex !important;
 }
