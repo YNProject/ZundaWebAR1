@@ -10,36 +10,40 @@ window.addEventListener("load", () => {
     let isScannerActive = false; 
     const intervalTime = 300; 
 
-    // パーティクル生成関数
+    // パーティクル生成関数（放射状・ゆっくり）
     const createParticles = () => {
         particleContainer.innerHTML = ''; // リセット
-        for (let i = 0; i < 12; i++) {
+        const count = 15; // パーティクルの数
+
+        for (let i = 0; i < count; i++) {
             const p = document.createElement('a-image');
             p.setAttribute('src', '#particle-img');
-            p.setAttribute('width', '0.15');
-            p.setAttribute('height', '0.15');
+            p.setAttribute('width', '0.12');
+            p.setAttribute('height', '0.12');
             
-            // ランダムな開始位置
-            const x = (Math.random() - 0.5) * 0.8;
-            const y = (Math.random() - 0.5) * 0.5 - 0.3;
-            p.setAttribute('position', `${x} ${y} 0.1`);
+            // 角度を計算（360度を等分）
+            const angle = (i / count) * Math.PI * 2;
+            const distance = 0.8; // 広がる距離
+            
+            // 中心位置
+            p.setAttribute('position', '0 0 0.1');
 
-            // 舞い上がるアニメーション
+            // 放射状にゆっくり広がるアニメーション
             p.setAttribute('animation__move', {
                 property: 'position',
-                to: `${x + (Math.random() - 0.5) * 0.4} ${y + 1.2} 0.1`,
-                dur: 1500 + Math.random() * 1000,
+                to: `${Math.cos(angle) * distance} ${Math.sin(angle) * distance} 0.1`,
+                dur: 4000, // 4秒かけてゆっくり移動
                 easing: 'easeOutQuad',
                 loop: true
             });
 
-            // 消えていくアニメーション
+            // ゆっくり消えていくアニメーション
             p.setAttribute('animation__fade', {
                 property: 'material.opacity',
                 from: 1,
                 to: 0,
-                dur: 1500 + Math.random() * 1000,
-                easing: 'easeInQuad',
+                dur: 4000, // 移動と同じ時間で消える
+                easing: 'linear',
                 loop: true
             });
 
@@ -64,7 +68,7 @@ window.addEventListener("load", () => {
         if (!isScannerActive) return;
 
         document.body.classList.add('target-found');
-        createParticles(); // パーティクル開始
+        createParticles(); // 放射状パーティクル開始
 
         const frames = document.querySelectorAll('.zunda-frame');
         let currentIndex = 0;
