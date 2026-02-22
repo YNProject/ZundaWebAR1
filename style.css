@@ -77,22 +77,19 @@ html, body {
 
 /* --- スキャンラインの制御 --- */
 
-/* A-Frameの不要なボタンを隠す */
-.a-enter-vr, .a-enter-ar {
+/* 不要なUI（VRボタン等）を隠す */
+.a-enter-vr, .a-enter-ar, .mindar-ui-loading {
     display: none !important;
 }
 
-/* 起動時やローディング中のスキャンUIを物理的に隠す */
-.mindar-ui-scanning, .mindar-ui-loading {
+/* 初期状態はスキャンUIを隠す */
+.mindar-ui-scanning {
     display: none !important;
 }
 
-/* ボタン押下後（ar-active）のみスキャンUIを表示 */
-body.ar-active .mindar-ui-scanning {
+/* 修正ポイント：
+   ボタン押下後（ar-active）かつ、ターゲット未発見（:not(.target-found)）の時だけ表示 
+*/
+body.ar-active:not(.target-found) .mindar-ui-scanning {
     display: flex !important;
-}
-
-/* ターゲット発見後はスキャンUIを隠す */
-body.target-found .mindar-ui-scanning {
-    display: none !important;
 }
