@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <div id="ui-layer">
+    <div id="ui-layer">// UIレイヤー
         <div id="start-screen">
             <div class="info-box">
                 <p>この画像をスキャンしよう！</p>
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <a-scene 
+    <a-scene // ARシーンの定義
         id="ar-scene"
         mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: true; uiScanning: yes;" 
         color-space="sRGB" 
@@ -28,7 +28,7 @@
         vr-mode-ui="enabled: false" 
         device-orientation-permission-ui="enabled: false">
         
-        <a-assets>
+        <a-assets>// アセットの定義
             <img id="z0" src="img/ずんだもん立ち絵素材2_0000.png">
             <img id="z1" src="img/ずんだもん立ち絵素材2_0001.png">
             <img id="z2" src="img/ずんだもん立ち絵素材2_0002.png">
@@ -42,9 +42,9 @@
             <audio id="zunda-audio" src="img/SCKinakoZun.wav" preload="auto"></audio>
         </a-assets>
 
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>// カメラの定義（位置とコントロールの設定）
 
-        <a-entity id="zunda-target" mindar-image-target="targetIndex: 0">
+        <a-entity id="zunda-target" mindar-image-target="targetIndex: 0">// ターゲットエンティティの定義
             <a-image class="zunda-frame" src="#z0" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
             <a-image class="zunda-frame" src="#z1" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
             <a-image class="zunda-frame" src="#z2" position="0 0 0.1" height="1.2" width="1" visible="false"></a-image>
@@ -59,6 +59,6 @@
         </a-entity>
     </a-scene>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script>// スクリプトの読み込み
 </body>
 </html>
