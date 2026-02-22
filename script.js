@@ -8,7 +8,7 @@ window.addEventListener("load", () => {
     
     let currentIndex = 0;
     let timer = null;
-    const intervalTime = 300;
+    const intervalTime = 1000;
     let isArEnabled = false;
 
     // 起動時に認識のみ停止
