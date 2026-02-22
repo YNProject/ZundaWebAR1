@@ -9,19 +9,18 @@ body {
     height: 100% !important;
 }
 
-/* VRボタンを物理的に隠す */
-.a-enter-vr, .a-enter-ar {
+.a-enter-vr,
+.a-enter-ar {
     display: none !important;
 }
 
-/* 背景を半透明にして、背後のカメラ映像を見せる */
 #start-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 暗めの半透明 */
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +34,7 @@ body {
     text-align: center;
     width: 80%;
     max-width: 320px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 #start-screen p {
