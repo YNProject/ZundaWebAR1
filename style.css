@@ -1,76 +1,17 @@
-body {
-    margin: 0;
-    overflow: hidden;
-    background-color: #000;
-}
+/* VRボタン消去 */
+.a-enter-vr, .a-enter-ar { display: none !important; }
 
-.a-canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-/* VR/ARボタンを徹底的に消去 */
-.a-enter-vr, .a-enter-ar {
-    display: none !important;
-}
-
-/* ★Mind-ARの標準スキャンUIの制御 */
-/* 最初は非表示 */
+/* 最初はスキャンUIを隠す */
 .mindar-ui-scanning {
     display: none !important;
 }
 
-/* ボタン押下後（ar-activeクラス付与時）のみ、ライブラリの自動表示を許可する */
+/* ボタン押下後のみ表示 */
 body.ar-active .mindar-ui-scanning {
     display: flex !important;
 }
 
-/* 初期画面のスタイル */
-#start-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.info-box {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    width: 80%;
-    max-width: 320px;
-}
-
-#start-screen p {
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #333;
-    font-family: sans-serif;
-}
-
-#guide-img {
-    width: 160px;
-    border: 3px solid #58ad21;
-    border-radius: 10px;
-    margin-bottom: 25px;
-}
-
-#start-button {
-    padding: 15px 0;
-    width: 100%;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #58ad21;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+/* ターゲット発見時に強制的に消すためのクラス */
+body.target-found .mindar-ui-scanning {
+    display: none !important;
 }
