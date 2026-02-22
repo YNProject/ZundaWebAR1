@@ -25,7 +25,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.4); /* 背景カメラを透過 */
+    background-color: rgba(255, 255, 255, 0.4);
     pointer-events: auto;
 }
 
@@ -75,12 +75,24 @@ html, body {
     box-shadow: 0 2px 0 #3d7a17;
 }
 
-/* 不要なUIを隠す */
-.a-enter-vr, .a-enter-ar, .mindar-ui-scanning, .mindar-ui-loading {
+/* --- スキャンラインの制御 --- */
+
+/* A-Frameの不要なボタンを隠す */
+.a-enter-vr, .a-enter-ar {
     display: none !important;
 }
 
-/* ボタン押下後、かつ認識前だけスキャンUIを出す */
-body.ar-active .mindar-ui-scanning:not(.target-found) {
+/* 起動時やローディング中のスキャンUIを物理的に隠す */
+.mindar-ui-scanning, .mindar-ui-loading {
+    display: none !important;
+}
+
+/* ボタン押下後（ar-active）のみスキャンUIを表示 */
+body.ar-active .mindar-ui-scanning {
     display: flex !important;
+}
+
+/* ターゲット発見後はスキャンUIを隠す */
+body.target-found .mindar-ui-scanning {
+    display: none !important;
 }
