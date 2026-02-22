@@ -8,28 +8,32 @@ window.addEventListener("load", () => {
     
     let currentIndex = 0;
     let timer = null;
-    const intervalTime = 200; // アニメーションを少し速くして滑らかに
+    const intervalTime = 300; 
 
-    // 起動時に画像認識を止める
+    // 起動時に認識を一時停止
     sceneEl.addEventListener("arReady", () => {
         sceneEl.systems['mindar-image-system'].pause(true); 
     });
 
-    // スキャン開始
     startButton.addEventListener('click', () => {
         document.body.classList.add('ar-active');
         sceneEl.systems['mindar-image-system'].unpause();
         
+        // 音声初期化
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         }).catch(e => console.log(e));
 
         startScreen.style.display = 'none';
-        window.dispatchEvent(new Event('resize'));
+
+        // 画面サイズの再計算を強制（これでカメラ映像のズレを直す）
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 100);
     });
 
-    // 認識した！
+    // ターゲット発見
     targetEl.addEventListener("targetFound", () => {
         document.body.classList.add('target-found');
         
@@ -44,7 +48,7 @@ window.addEventListener("load", () => {
         audio.play().catch(e => console.log(e));
     });
 
-    // 見失った...
+    // ターゲット紛失
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
         

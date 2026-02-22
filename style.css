@@ -1,22 +1,25 @@
-/* 基本設定：余計な余白をゼロに */
 html, body {
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     background-color: #000;
 }
 
-/* カメラ映像を背面に固定 */
+/* カメラ映像と描画キャンバスを画面全体に強制拡大 */
 video, .a-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
     z-index: 1 !important;
 }
 
-/* UIレイヤー：カメラの上に重ねる */
 #ui-layer {
     position: fixed;
     top: 0;
@@ -24,21 +27,20 @@ video, .a-canvas {
     width: 100%;
     height: 100%;
     z-index: 100;
-    pointer-events: none; /* 下のカメラ操作を邪魔しない */
+    pointer-events: none;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* 初期画面：中央に配置 */
 #start-screen {
-    pointer-events: auto;
-    background-color: rgba(255, 255, 255, 0.85); /* 少し透明度を下げて見やすく */
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    pointer-events: auto;
 }
 
 .info-box {
@@ -46,23 +48,24 @@ video, .a-canvas {
     padding: 20px;
     border-radius: 20px;
     text-align: center;
-    width: 280px; /* 幅を固定して突き抜けを防止 */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    width: 80%;
+    max-width: 280px; /* ボックスが突き抜けないように制限 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 #start-screen p {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 15px;
     color: #333;
+    margin: 0 0 15px 0;
 }
 
-/* 1枚目の巨大化を防ぐ設定 */
 #guide-img {
-    width: 140px; /* 適正なサイズに固定 */
+    width: 100%; /* ボックス幅に合わせる */
+    max-width: 150px; /* 画像が巨大化するのを防ぐ */
     height: auto;
     border: 3px solid #58ad21;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 20px;
 }
 
@@ -78,12 +81,12 @@ video, .a-canvas {
     cursor: pointer;
 }
 
-/* スキャンラインを中央に */
+/* スキャンUI（点線など）の制御 */
 .mindar-ui-scanning {
     z-index: 50 !important;
 }
 
-/* 認識中のみ消す設定 */
+/* 認識した瞬間にスキャンUIを消す */
 body.target-found .mindar-ui-scanning {
     display: none !important;
 }
