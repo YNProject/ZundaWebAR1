@@ -14,14 +14,19 @@ body {
     display: none !important;
 }
 
-/* --- ここが重要：スキャンラインUIを最初は隠す --- */
+/* 最初は非表示 */
 .mindar-ui-scanning {
     display: none !important;
 }
 
-/* ボタン押下後にこのクラスをbody等に付与して表示させる */
+/* ボタン押下後に表示（認識中） */
 body.ar-active .mindar-ui-scanning {
     display: flex !important;
+}
+
+/* 【追加】ずんだもんが表示されている間は強制的に隠す */
+body.scanning-hidden .mindar-ui-scanning {
+    display: none !important;
 }
 
 #start-screen {
