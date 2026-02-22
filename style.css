@@ -1,25 +1,18 @@
+/* 基本リセット */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #000;
 }
 
-/* カメラ映像と描画キャンバスを画面全体に強制拡大 */
-video, .a-canvas {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    min-width: 100% !important;
-    min-height: 100% !important;
-    width: auto !important;
-    height: auto !important;
-    z-index: 1 !important;
+/* A-Frame キャンバスの表示を保証 */
+.a-canvas {
+    display: block !important;
 }
 
+/* UIレイヤー：ボタン等をカメラの前面に配置 */
 #ui-layer {
     position: fixed;
     top: 0;
@@ -33,6 +26,7 @@ video, .a-canvas {
     align-items: center;
 }
 
+/* 初期画面の設定 */
 #start-screen {
     width: 100%;
     height: 100%;
@@ -43,52 +37,35 @@ video, .a-canvas {
     pointer-events: auto;
 }
 
+/* ボックスと画像の設定：表示を阻害しない最小限の構成 */
 .info-box {
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
     text-align: center;
-    width: 80%;
-    max-width: 280px; /* ボックスが突き抜けないように制限 */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-#start-screen p {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 0 15px 0;
 }
 
 #guide-img {
-    width: 100%; /* ボックス幅に合わせる */
-    max-width: 150px; /* 画像が巨大化するのを防ぐ */
+    max-width: 150px;
     height: auto;
-    border: 3px solid #58ad21;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    display: block;
+    margin: 0 auto 20px;
 }
 
-#start-button {
-    width: 100%;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background-color: #58ad21;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-/* スキャンUI（点線など）の制御 */
+/* スキャンライン（Mind-AR標準UI）の制御 */
+/* 最初は非表示 */
 .mindar-ui-scanning {
-    z-index: 50 !important;
+    display: none !important;
 }
 
-/* 認識した瞬間にスキャンUIを消す */
+/* ボタン押下後のみ表示を許可 */
+body.ar-active .mindar-ui-scanning {
+    display: flex !important;
+}
+
+/* 認識成功時は非表示にする */
 body.target-found .mindar-ui-scanning {
     display: none !important;
 }
 
-.a-enter-vr, .a-enter-ar { display: none !important; }
+/* A-FrameのVRボタン等を非表示 */
+.a-enter-vr, .a-enter-ar {
+    display: none !important;
+}

@@ -1,12 +1,11 @@
 window.addEventListener("load", () => {
     const sceneEl = document.querySelector('a-scene');
-    const frames = document.querySelectorAll('.zunda-frame');
     const audio = document.querySelector('#zunda-audio');
     const startScreen = document.querySelector('#start-screen');
     const startButton = document.querySelector('#start-button');
     const targetEl = document.querySelector('#zunda-target');
     
-    let currentIndex = 0;
+    // アニメーション用のフレームをその都度取得するように変更
     let timer = null;
     const intervalTime = 300; 
 
@@ -30,32 +29,34 @@ window.addEventListener("load", () => {
         }, 100);
     });
 
-    // ターゲット発見時の処理を確実に実行させる
+    // ターゲット発見
     targetEl.addEventListener("targetFound", () => {
         document.body.classList.add('target-found');
         
-        // 既存のタイマーがあれば一度クリア（重複防止）
+        const frames = document.querySelectorAll('.zunda-frame');
+        let currentIndex = 0;
+
         if (timer) clearInterval(timer);
         
-        // インデックスをリセットして表示開始
-        currentIndex = 0;
         timer = setInterval(() => {
-            // 全てのフレームを一旦非表示にする
-            frames.forEach(f => f.setAttribute('visible', false));
-            // 現在のインデックスのフレームだけを表示する
-            if (frames[currentIndex]) {
-                frames[currentIndex].setAttribute('visible', true);
+            // A-Frameの表示・非表示を確実に切り替える
+            for (let i = 0; i < frames.length; i++) {
+                if (i === currentIndex) {
+                    frames[i].setAttribute('visible', 'true');
+                } else {
+                    frames[i].setAttribute('visible', 'false');
+                }
             }
             currentIndex = (currentIndex + 1) % frames.length;
         }, intervalTime);
 
-        // 音声再生
         if (audio) {
             audio.currentTime = 0;
-            audio.play().catch(e => console.log("Audio play failed:", e));
+            audio.play().catch(e => console.log(e));
         }
     });
 
+    // ターゲット紛失
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
         
@@ -63,8 +64,10 @@ window.addEventListener("load", () => {
             clearInterval(timer);
             timer = null;
         }
-        // 全て隠す
-        frames.forEach(f => f.setAttribute('visible', false));
+        
+        const frames = document.querySelectorAll('.zunda-frame');
+        frames.forEach(f => f.setAttribute('visible', 'false'));
+        
         if (audio) audio.pause();
     });
 });
