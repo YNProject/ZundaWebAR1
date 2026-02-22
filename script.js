@@ -5,17 +5,19 @@ window.addEventListener("load", () => {
     const startButton = document.querySelector('#start-button');
     const targetEl = document.querySelector('#zunda-target');
     
-    // アニメーション用のフレームをその都度取得するように変更
+    // アニメーション用のタイマー変数（状態を維持）
     let timer = null;
     const intervalTime = 300; 
 
-    sceneEl.addEventListener("arReady", () => {
-        sceneEl.systems['mindar-image-system'].pause(true); 
-    });
+    // ★今回の修正点：起動時は何もしない（autoStart: false と連動）
 
+    // ボタン押下時の処理
     startButton.addEventListener('click', () => {
+        // ★今回の修正点：ここをクリックした時だけシステムを開始する
+        const arSystem = sceneEl.systems['mindar-image-system'];
+        arSystem.start(); 
+
         document.body.classList.add('ar-active');
-        sceneEl.systems['mindar-image-system'].unpause();
         
         audio.play().then(() => {
             audio.pause();
@@ -29,17 +31,18 @@ window.addEventListener("load", () => {
         }, 100);
     });
 
-    // ターゲット発見
+    // ターゲット発見（以前「表示されない」問題を解決した時のロジックそのまま）
     targetEl.addEventListener("targetFound", () => {
         document.body.classList.add('target-found');
         
+        // フレームはその都度最新の状態で取得
         const frames = document.querySelectorAll('.zunda-frame');
         let currentIndex = 0;
 
         if (timer) clearInterval(timer);
         
         timer = setInterval(() => {
-            // A-Frameの表示・非表示を確実に切り替える
+            // A-Frameの visible 属性を 'true'/'false' で確実に切り替える
             for (let i = 0; i < frames.length; i++) {
                 if (i === currentIndex) {
                     frames[i].setAttribute('visible', 'true');
@@ -56,7 +59,7 @@ window.addEventListener("load", () => {
         }
     });
 
-    // ターゲット紛失
+    // ターゲット紛失（以前の状態を維持）
     targetEl.addEventListener("targetLost", () => {
         document.body.classList.remove('target-found');
         
