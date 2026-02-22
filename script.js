@@ -8,30 +8,30 @@ window.addEventListener("load", () => {
     
     let currentIndex = 0;
     let timer = null;
-    const intervalTime = 300; 
+    const intervalTime = 200; // アニメーションを少し速くして滑らかに
 
-    // 1. 起動時に認識のみ停止
+    // 起動時に画像認識を止める
     sceneEl.addEventListener("arReady", () => {
         sceneEl.systems['mindar-image-system'].pause(true); 
     });
 
-    // 2. ボタン押下：スキャン開始
+    // スキャン開始
     startButton.addEventListener('click', () => {
-        document.body.classList.add('ar-active'); // CSSでスキャンUIを許可
-        sceneEl.systems['mindar-image-system'].unpause(); // 認識再開
+        document.body.classList.add('ar-active');
+        sceneEl.systems['mindar-image-system'].unpause();
         
         audio.play().then(() => {
             audio.pause();
             audio.currentTime = 0;
         }).catch(e => console.log(e));
 
-        startScreen.style.display = 'none'; // 初期画面を消す
+        startScreen.style.display = 'none';
         window.dispatchEvent(new Event('resize'));
     });
 
-    // 3. ターゲット発見
+    // 認識した！
     targetEl.addEventListener("targetFound", () => {
-        document.body.classList.add('target-found'); // ラインを強制消去
+        document.body.classList.add('target-found');
         
         if (!timer) {
             timer = setInterval(() => {
@@ -41,12 +41,12 @@ window.addEventListener("load", () => {
             }, intervalTime);
         }
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(e => console.log(e));
     });
 
-    // 4. ターゲット紛失
+    // 見失った...
     targetEl.addEventListener("targetLost", () => {
-        document.body.classList.remove('target-found'); // ラインを復活
+        document.body.classList.remove('target-found');
         
         if (timer) {
             clearInterval(timer);

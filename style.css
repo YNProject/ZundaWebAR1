@@ -1,75 +1,91 @@
-body {
+/* 基本設定 */
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     background-color: #000;
 }
 
-/* A-Frameのキャンバス設定 */
-.a-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 1; /* カメラを一番後ろに */
-}
-
-/* VR/ARボタン消去 */
-.a-enter-vr, .a-enter-ar {
-    display: none !important;
-}
-
-/* --- スキャンUIの制御 --- */
-.mindar-ui-scanning {
-    display: none !important; /* 最初は隠す */
-    z-index: 500;
-}
-
-/* ボタン押下後に表示を許可 */
-body.ar-active .mindar-ui-scanning {
-    display: flex !important;
-}
-
-/* 認識成功時は最優先で消す */
-body.target-found .mindar-ui-scanning {
-    display: none !important;
-}
-
-/* --- 初期画面（最前面） --- */
-#start-screen {
+/* UIをカメラの前面に固定するためのコンテナ */
+#ui-layer {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.7); /* 半透明でカメラを見せる */
+    z-index: 9999; /* A-Frameより確実に前に出す */
+    pointer-events: none; /* 下の要素を触れるようにする（ただしstart-screen内は有効化する） */
+}
+
+/* 初期画面の設定 */
+#start-screen {
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000; /* 全ての要素より前に出す */
+    background-color: rgba(255, 255, 255, 0.75);
+    pointer-events: auto; /* ボタンをクリック可能にする */
 }
 
 .info-box {
-    background: white;
-    padding: 25px;
+    background: #fff;
+    padding: 30px;
     border-radius: 20px;
     text-align: center;
-    width: 80%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    width: 85%;
     max-width: 320px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-#start-button {
-    padding: 15px 0;
-    width: 100%;
-    font-size: 18px;
+#start-screen p {
+    font-size: 20px;
     font-weight: bold;
-    background-color: #58ad21;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+    color: #333;
+    margin: 0 0 20px 0;
+    font-family: sans-serif;
 }
 
 #guide-img {
-    width: 150px;
-    border: 2px solid #58ad21;
-    margin-bottom: 20px;
+    width: 180px;
+    height: auto;
+    border: 3px solid #58ad21;
+    border-radius: 12px;
+    margin-bottom: 25px;
 }
+
+#start-button {
+    width: 100%;
+    padding: 16px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #58ad21;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #3d7a17;
+}
+
+#start-button:active {
+    box-shadow: none;
+    transform: translateY(2px);
+}
+
+/* スキャンラインの制御 */
+.mindar-ui-scanning {
+    display: none !important;
+}
+
+body.ar-active .mindar-ui-scanning {
+    display: flex !important;
+}
+
+body.target-found .mindar-ui-scanning {
+    display: none !important;
+}
+
+/* A-Frameが勝手に出すボタンを隠す */
+.a-enter-vr, .a-enter-ar { display: none !important; }
