@@ -8,16 +8,22 @@ window.addEventListener("load", () => {
     let timer = null;
     const intervalTime = 300; 
 
-    // ★追加：カメラ（AR）の準備ができたら、認識機能だけを一時停止（pause）させる
-    sceneEl.addEventListener("arReady", () => {
-        // pause(true) にすることで、カメラ映像は出たままで画像認識だけが止まります
-        sceneEl.systems['mindar-image-system'].pause(true); 
+    // ★修正ポイント：ARの準備が整うのを待たず、
+    // シーンが読み込まれた直後の最も早い段階で「スキャン一時停止」を予約します
+    sceneEl.addEventListener("renderstart", () => {
+        const arSystem = sceneEl.systems['mindar-image-system'];
+        if (arSystem) {
+            arSystem.pause(true); // スキャン機能のみを強制停止
+        }
     });
 
     // ボタン押下時の処理
     startButton.addEventListener('click', () => {
-        // ★修正：一時停止していた認識機能を「再開」させる
-        sceneEl.systems['mindar-image-system'].unpause();
+        // ボタンを押した時だけスキャンを「再開」
+        const arSystem = sceneEl.systems['mindar-image-system'];
+        if (arSystem) {
+            arSystem.unpause(); 
+        }
 
         document.body.classList.add('ar-active');
         
@@ -33,7 +39,7 @@ window.addEventListener("load", () => {
         }, 100);
     });
 
-    // --- targetFound 以降のロジックは一切変更なし ---
+    // --- targetFound / targetLost のロジックは変更なし ---
     targetEl.addEventListener("targetFound", () => {
         document.body.classList.add('target-found');
         const frames = document.querySelectorAll('.zunda-frame');
