@@ -13,10 +13,50 @@ html, body {
     width: 100%;
     height: 100%;
     z-index: 100;
-    pointer-events: none;
+    pointer-events: none; /* 下のARシーンに触れるようにする */
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* 【追加】AR中の下部ボタンコンテナ */
+#ar-buttons {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    pointer-events: auto; /* ボタンをクリック可能に */
+}
+
+/* 【追加】共通ボタンデザイン */
+.sub-button {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #58ad21;
+    background: white;
+    border: 2px solid #58ad21;
+    border-radius: 30px;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+}
+
+/* 【追加】サイトを見るボタン（塗りつぶし） */
+#visit-site {
+    background-color: #58ad21;
+    color: white;
+}
+
+.sub-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 #start-screen {

@@ -11,6 +11,11 @@
 <body>
 
     <div id="ui-layer">
+        <div id="ar-buttons" style="display: none;">
+            <button id="back-to-title" class="sub-button">タイトルへ戻る</button>
+            <a href="https://www.meiji.co.jp/sweets/icecream/essel/" target="_blank" id="visit-site" class="sub-button">サイトを見に行く</a>
+        </div>
+
         <div id="start-screen">
             <div class="info-box">
                 <p>この画像をスキャンしよう！</p>
@@ -20,15 +25,15 @@
         </div>
     </div>
 
-    <a-scene // ARシーンの定義
+    <a-scene 
         id="ar-scene"
-        mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: true; uiScanning: yes;filterMinCF: 0.0001; filterBeta: 0.001;" 
+        mindar-image="imageTargetSrc: ./img/targets.mind; autoStart: true; uiScanning: yes; filterMinCF: 0.0001; filterBeta: 0.001;" 
         color-space="sRGB" 
         renderer="colorManagement: true, physicallyCorrectLights" 
         vr-mode-ui="enabled: false" 
         device-orientation-permission-ui="enabled: false">
         
-        <a-assets>// アセットの定義
+        <a-assets>
             <img id="z0" src="img/ずんだもん立ち絵素材2_0000.png">
             <img id="z1" src="img/ずんだもん立ち絵素材2_0001.png">
             <img id="z2" src="img/ずんだもん立ち絵素材2_0002.png">
